@@ -16,13 +16,13 @@ if not exist venv (
     call venv\Scripts\activate
     python -m pip install --upgrade pip
     
-    echo Installing dependencies without Rust requirements...
-    python install_dependencies.py
+    echo Installing dependencies...
+    pip install -r requirements.txt
 ) else (
     call venv\Scripts\activate
 )
 
-REM Run the application with no authentication for easier local use
-python run.py --no-auth
+REM Run the application
+python run.py
 
 pause

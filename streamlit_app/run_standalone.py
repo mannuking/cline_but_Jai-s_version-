@@ -7,7 +7,7 @@ import os
 import sys
 import importlib.util
 from pathlib import Path
-import tempfile  # Add import for tempfile module
+import tempfile
 
 def check_file_exists(file_path):
     """Check if a file exists and return its contents if it does."""
@@ -49,7 +49,6 @@ def main():
         "file_explorer.py",
         "terminal.py",
         "cline_interface.py",
-        "firebase_auth.py",
         "requirements.txt"
     ]
     
@@ -67,8 +66,7 @@ def main():
     imports_to_test = [
         ("file_explorer", "FileExplorer"),
         ("terminal", "Terminal"),
-        ("cline_interface", "ClineInterface"),
-        ("firebase_auth", "FirebaseAuth")
+        ("cline_interface", "ClineInterface")
     ]
     
     all_imports_ok = True

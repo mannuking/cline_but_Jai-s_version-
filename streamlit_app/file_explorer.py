@@ -118,13 +118,13 @@ class FileExplorer:
                             f.write(initial_content)
                         st.success(f"Created file: {new_file_name}")
                         st.session_state.new_file_dialog = False
-                        st.experimental_rerun()
+                        st.rerun()  # Changed from st.experimental_rerun()
                     except Exception as e:
                         st.error(f"Error creating file: {str(e)}")
                 
                 if cancel:
                     st.session_state.new_file_dialog = False
-                    st.experimental_rerun()
+                    st.rerun()  # Changed from st.experimental_rerun()
         
         # New folder dialog
         if st.session_state.get('new_folder_dialog', False):
@@ -141,13 +141,13 @@ class FileExplorer:
                         os.makedirs(folder_path, exist_ok=True)
                         st.success(f"Created folder: {new_folder_name}")
                         st.session_state.new_folder_dialog = False
-                        st.experimental_rerun()
+                        st.rerun()  # Changed from st.experimental_rerun()
                     except Exception as e:
                         st.error(f"Error creating folder: {str(e)}")
                 
                 if cancel:
                     st.session_state.new_folder_dialog = False
-                    st.experimental_rerun()
+                    st.rerun()  # Changed from st.experimental_rerun()
         
         # Upload file dialog
         if st.session_state.get('upload_file_dialog', False):
@@ -164,13 +164,13 @@ class FileExplorer:
                         f.write(uploaded_file.getbuffer())
                     st.success(f"Uploaded file: {uploaded_file.name}")
                     st.session_state.upload_file_dialog = False
-                    st.experimental_rerun()
+                    st.rerun()  # Changed from st.experimental_rerun()
                 except Exception as e:
                     st.error(f"Error uploading file: {str(e)}")
             
             if cancel:
                 st.session_state.upload_file_dialog = False
-                st.experimental_rerun()
+                st.rerun()  # Changed from st.experimental_rerun()
         
         # Display file tree
         try:

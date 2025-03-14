@@ -16,7 +16,7 @@ def check_requirements():
     try:
         import streamlit
         try:
-            import anthropic
+            import google.generativeai
             return True
         except ImportError:
             return False
@@ -27,12 +27,11 @@ def check_requirements():
 if not check_requirements():
     print("Installing required packages...")
     try:
-        # Use our custom installer that avoids Rust compilation
-        subprocess.check_call([sys.executable, "install_dependencies.py"])
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", "requirements.txt"])
         print("✓ Requirements installed successfully")
     except Exception as e:
         print(f"❌ Error installing requirements: {str(e)}")
-        print("Please try installing them manually: python install_dependencies.py")
+        print("Please try installing them manually: pip install -r requirements.txt")
         sys.exit(1)
 
 # Create temp directory if needed
@@ -44,9 +43,6 @@ if not temp_dir.exists():
 # Run Streamlit app
 print("Launching Cline Web IDE...")
 port = 8501
-
-# Set environment variable to disable authentication for easy local use
-os.environ["DISABLE_AUTH"] = "true"
 
 # Start Streamlit in a separate process
 cmd = [sys.executable, "-m", "streamlit", "run", "app.py", "--server.port", str(port)]

@@ -12,10 +12,6 @@ import io
 from file_explorer import FileExplorer
 from terminal import Terminal
 from cline_interface import ClineInterface
-from firebase_auth import FirebaseAuth
-
-# Check if auth is disabled via environment variable
-auth_enabled = os.getenv("DISABLE_AUTH", "false").lower() != "true"
 
 # Configure page
 st.set_page_config(
@@ -51,14 +47,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Authentication
-if auth_enabled:
-    firebase_auth = FirebaseAuth()
-    is_authenticated = firebase_auth.login_form()
-    
-    if not is_authenticated:
-        st.stop()
-
 # Session state initialization
 if 'project_path' not in st.session_state:
     st.session_state.project_path = tempfile.mkdtemp(prefix="cline_project_")
@@ -84,7 +72,7 @@ st.title("Cline Web IDE")
 # API key input
 with st.sidebar:
     st.header("Settings")
-    api_key = st.text_input("API Key (Claude/Anthropic)", type="password")
+    api_key = st.text_input("API Key (Google Gemini)", type="password")
     if api_key:
         st.session_state.api_key = api_key
         cline_interface.set_api_key(api_key)

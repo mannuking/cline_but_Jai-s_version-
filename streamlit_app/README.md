@@ -99,7 +99,7 @@ docker-compose down
 
 1. Access the web IDE at http://localhost:8501
 2. Log in or continue with anonymous access if authentication is disabled
-3. Enter your Anthropic API key in the sidebar to enable AI assistance
+3. Enter your Google API key in the sidebar to enable AI assistance
 4. Create or upload files using the file explorer
 5. Edit your code in the editor tab
 6. Run commands in the terminal tab

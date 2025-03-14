@@ -32,36 +32,13 @@ def setup_environment():
     temp_dir.mkdir(exist_ok=True)
     print("✓ Temp directory created")
     
-    # Create a default .env file if it doesn't exist
-    env_file = Path.cwd() / '.env'
-    if not env_file.exists():
-        with open(env_file, 'w') as f:
-            f.write("""# Cline Web IDE Environment Variables
-# Uncomment and fill in the values below
-
-# ANTHROPIC_API_KEY=your_api_key_here
-# FIREBASE_PRIVATE_KEY_ID=
-# FIREBASE_PRIVATE_KEY=
-# FIREBASE_CLIENT_EMAIL=
-# FIREBASE_CLIENT_ID=
-# FIREBASE_CERT_URL=
-""")
-        print("✓ Default .env file created")
-    
     print("✓ Environment set up successfully!")
 
-def run_app(port=8501, enable_auth=True, debug=False):
+def run_app(port=8501, debug=False):
     """Run the Streamlit app."""
-    if not enable_auth:
-        os.environ["DISABLE_AUTH"] = "true"
-    
     if debug:
         os.environ["STREAMLIT_DEBUG"] = "true"
-    
-    # Determine if we're running in development mode
-    dev_mode = debug or not enable_auth
-    if dev_mode:
-        print("⚠️  Running in development mode")
+        print("⚠️  Running in debug mode")
     
     print(f"🚀 Starting Cline Web IDE on http://localhost:{port}")
     
@@ -99,7 +76,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run Cline Web IDE")
     parser.add_argument("--setup", action="store_true", help="Set up the environment")
     parser.add_argument("--port", type=int, default=8501, help="Port to run the app on")
-    parser.add_argument("--no-auth", action="store_true", help="Disable authentication")
     parser.add_argument("--debug", action="store_true", help="Run in debug mode")
     parser.add_argument("--no-browser", action="store_true", help="Don't open browser automatically")
     
@@ -111,4 +87,4 @@ if __name__ == "__main__":
     if not args.no_browser:
         open_browser(port=args.port)
     
-    run_app(port=args.port, enable_auth=not args.no_auth, debug=args.debug)
+    run_app(port=args.port, debug=args.debug)

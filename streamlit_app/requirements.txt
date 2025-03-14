@@ -1,14 +1,11 @@
 streamlit==1.29.0
 streamlit-ace==0.1.1
 pexpect==4.8.0
-firebase-admin==6.2.0
 python-dotenv==1.0.0
-# Use an older version of anthropic that doesn't require tokenizers compilation
-anthropic==0.5.0
+google-generativeai==0.3.1
 watchdog==3.0.0
 streamlit-tree-select==0.0.5
 zipfile36==0.1.3
 pyyaml==6.0.1
-# Removed streamlit-terminal==1.1.0 as it's not available in PyPI
-# For the terminal functionality, we'll use the built-in Streamlit components
+# Removed firebase-admin and authentication dependencies
 

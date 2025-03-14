@@ -150,6 +150,6 @@ class Terminal:
             )
             if selected_history:
                 st.session_state.terminal_command = selected_history
-                st.experimental_rerun()
+                st.rerun()  # Changed from st.experimental_rerun()
         
         return None
