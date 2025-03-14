@@ -23,6 +23,8 @@ class ClineInterface:
                 # Configure the Gemini API
                 genai.configure(api_key=api_key)
                 st.session_state.client = genai
+                # Add a test message to verify configuration
+                print("Google Gemini API configured successfully.")
                 return True
             except Exception as e:
                 st.error(f"Error initializing client: {str(e)}")
@@ -240,11 +242,25 @@ The user can download their complete project when finished.
         # Check if API key is set
         if not st.session_state.client:
             st.warning("Please enter your Google API key in the sidebar to use the Cline Assistant.")
+            st.info("After entering your API key, click anywhere outside the text box to apply it.")
+            
+            # Add instructions for getting an API key
+            with st.expander("How to get a Google Gemini API key"):
+                st.markdown("""
+                1. Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
+                2. Sign in with your Google account
+                3. Click on "Get API key" in the top menu
+                4. Create a new API key or use an existing one
+                5. Copy the API key and paste it in the sidebar
+                """)
             return
         
         # Display chat history
         chat_container = st.container()
         with chat_container:
+            if not st.session_state.chat_history:
+                st.markdown("**Cline**: Hello! I'm your AI programming assistant. How can I help you with your coding project today?")
+            
             for message in st.session_state.chat_history:
                 if message["role"] == "user":
                     st.markdown(f"**You**: {message['content']}")
@@ -255,16 +271,18 @@ The user can download their complete project when finished.
                         st.code(message['content'], language="plaintext")
         
         # User input
-        with st.form("chat_input_form", clear_on_submit=True):
-            user_input = st.text_area("Message Cline", height=100)
-            submitted = st.form_submit_button("Send")
-            
-        if submitted and user_input:
+        user_input = st.text_area("Message Cline", height=100, key="user_message")
+        submit_button = st.button("Send")
+        
+        if submit_button and user_input:
             # Add user message to chat history
             st.session_state.chat_history.append({
                 "role": "user",
                 "content": user_input
             })
+            
+            # Clear the input area
+            st.session_state.user_message = ""
             
             # Generate system prompt with project context
             system_prompt = self.generate_system_prompt(project_path)
@@ -358,9 +376,10 @@ The user can download their complete project when finished.
                 
             except Exception as e:
                 st.error(f"Error communicating with Gemini: {str(e)}")
+                st.error("Please check your API key and internet connection.")
             
             # Force a rerun to update the chat container
-            st.rerun()  # Use st.rerun() instead of st.experimental_rerun()
+            st.rerun()
 
 # Add additional utility functions
 def extract_code_blocks(text):

@@ -72,10 +72,18 @@ st.title("Cline Web IDE")
 # API key input
 with st.sidebar:
     st.header("Settings")
-    api_key = st.text_input("API Key (Google Gemini)", type="password")
+    api_key = st.text_input("API Key (Google Gemini)", type="password", key="gemini_api_key")
     if api_key:
-        st.session_state.api_key = api_key
-        cline_interface.set_api_key(api_key)
+        # Only set the API key if it's not already set or if it has changed
+        if st.session_state.api_key != api_key:
+            st.session_state.api_key = api_key
+            if cline_interface.set_api_key(api_key):
+                st.success("API key set successfully!")
+            else:
+                st.error("Failed to initialize the AI with the provided API key")
+    
+    # Add link to get API key
+    st.markdown("[Get a Google Gemini API Key](https://makersuite.google.com/app/apikey)")
     
     st.header("Project")
     if st.button("Download Project"):
